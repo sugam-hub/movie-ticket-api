@@ -1,5 +1,6 @@
 import { Op } from "sequelize";
 import { createUser } from "../user/UserController";
+import { generateAccessToken, matchPassword } from "../../utils/AuthUtils";
 
 const db = require("../../../models");
 
@@ -41,5 +42,46 @@ export const Register = async(input: Register): Promise<any> => {
         return userInfo;
     }catch(error: any){
         console.log("User registration failed!!!");
+    }
+}
+
+export const Login = async (input: Login): Promise<any> => {
+    try{
+        const user = await User.findOne({
+            where: {email: input.email},
+            attributes: ["id","email", "password"]
+        })
+        
+        // console.log(user);
+        
+        if(!user || user == null){
+            // throw new Error("User not found");
+            return {
+                message: "User not found"
+            }
+        }
+
+        const isMatch = await matchPassword(input.password, user);
+        
+      
+        if(!isMatch){
+            // throw new Error("Invalid Credentials");
+            return {
+                message: "Invalid credentials"
+            }
+        }
+        
+        if(isMatch){
+            let userData = user.toJSON();
+            console.log("Userdata", userData)
+            delete userData.password;
+            
+            return {
+                message: "Logged In Successfully",
+                accessToken: generateAccessToken(userData),
+            }
+        }
+    }catch(error: any){
+        return (error);
     }
 }

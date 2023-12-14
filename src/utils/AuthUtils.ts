@@ -10,6 +10,7 @@ export const hashPassword = async (input: string) => {
 }
 
 export const matchPassword = async (password: string, user: UserSchema) => {
+    console.log(user)
     return await bcrypt.compare(password, user.password);
 };
 
