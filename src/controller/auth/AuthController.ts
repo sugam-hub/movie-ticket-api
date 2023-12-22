@@ -41,7 +41,7 @@ export const Register = async(input: Register): Promise<any> => {
         const userInfo = await createUser(input);
         return userInfo;
     }catch(error: any){
-        console.log("User registration failed!!!");
+        console.error("User registration failed!!!");
     }
 }
 
@@ -57,6 +57,7 @@ export const Login = async (input: Login): Promise<any> => {
         if(!user || user == null){
             // throw new Error("User not found");
             return {
+                success: false,
                 message: "User not found"
             }
         }
@@ -67,6 +68,7 @@ export const Login = async (input: Login): Promise<any> => {
         if(!isMatch){
             // throw new Error("Invalid Credentials");
             return {
+                success: false,
                 message: "Invalid credentials"
             }
         }
@@ -77,6 +79,7 @@ export const Login = async (input: Login): Promise<any> => {
             delete userData.password;
             
             return {
+                success: true,
                 message: "Logged In Successfully",
                 accessToken: generateAccessToken(userData),
             }

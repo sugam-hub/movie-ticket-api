@@ -25,12 +25,25 @@ export const BookTicket = async (input: Ticket): Promise<any> => {
 
 export const createTicket = async(input: TicketSchema): Promise<any> => {
     try{
-
         const ticketData = await Ticket.create(input);
         return ticketData;
     }catch(error: any){
         return {
             errors: `Ticket Booking Failed, ${error}`,
+        }
+    }
+}
+
+export const GetAllTickets = async (customerId: string): Promise<any> => {
+    try{
+        const ticket = await Ticket.findAll({
+            where: {customer_id: customerId},
+            order: [["createdAt", "DESC"]]
+        });
+        return ticket; 
+    }catch(error: any){
+        return {
+            errors: "Getting ticket failed",
         }
     }
 }

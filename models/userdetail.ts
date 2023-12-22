@@ -6,15 +6,15 @@ const {
   Model
 } = require('sequelize');
 
-export interface TicketSchema {
-  seat_number?: string;
-  date?: string;
-  time?: string;
-  price?: string;
-  customer_id?: string;
+export interface UserDetailSchema {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  address: string;
+  user_id?: string
 }
 module.exports = (sequelize: Sequelize, DataTypes: {[key: string]: any}) => {
-  class Ticket extends Model {
+  class UserDetail extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -23,37 +23,26 @@ module.exports = (sequelize: Sequelize, DataTypes: {[key: string]: any}) => {
     static associate(models: any) {
       // define association here
       this.belongsTo(models.User, {
-        source_key: "customer_id",
+        source_key: "user_id",
         foreignKey: "id",
-        as: "customer"
+        as: "userdetail"
       })
     }
   }
-  Ticket.init({
-    id:{
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      autoIncrement: true,
-      primaryKey: true,
+  UserDetail.init({
+    first_name: {
+      type:  DataTypes.STRING,
     },
-    movie_name:{
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    seat_number: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    date: {
+    last_name: {
       type: DataTypes.STRING,
     },
-    time: {
+    phone: {
       type: DataTypes.STRING,
     },
-    price: {
+    address: {
       type: DataTypes.STRING,
     },
-    customer_id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -63,7 +52,7 @@ module.exports = (sequelize: Sequelize, DataTypes: {[key: string]: any}) => {
     }
   }, {
     sequelize,
-    modelName: 'Ticket',
+    modelName: 'UserDetail',
   });
-  return Ticket;
+  return UserDetail;
 };

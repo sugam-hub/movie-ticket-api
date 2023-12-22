@@ -6,15 +6,13 @@ const {
   Model
 } = require('sequelize');
 
-export interface TicketSchema {
-  seat_number?: string;
-  date?: string;
-  time?: string;
-  price?: string;
-  customer_id?: string;
+export interface MovieHallSchema {
+  hall_name?: string;
+  latitude?: string;
+  longitude?: string;
 }
 module.exports = (sequelize: Sequelize, DataTypes: {[key: string]: any}) => {
-  class Ticket extends Model {
+  class MovieHall extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -22,48 +20,30 @@ module.exports = (sequelize: Sequelize, DataTypes: {[key: string]: any}) => {
      */
     static associate(models: any) {
       // define association here
-      this.belongsTo(models.User, {
-        source_key: "customer_id",
-        foreignKey: "id",
-        as: "customer"
-      })
     }
   }
-  Ticket.init({
-    id:{
+  MovieHall.init({
+    id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
-      primaryKey: true,
+      primaryKey: true
     },
-    movie_name:{
+    hall_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    seat_number: {
+    latitude: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    date: {
+    longitude: {
       type: DataTypes.STRING,
+      allowNull: false
     },
-    time: {
-      type: DataTypes.STRING,
-    },
-    price: {
-      type: DataTypes.STRING,
-    },
-    customer_id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "Users",
-        key: "id"
-      }
-    }
   }, {
     sequelize,
-    modelName: 'Ticket',
+    modelName: 'MovieHall',
   });
-  return Ticket;
+  return MovieHall;
 };

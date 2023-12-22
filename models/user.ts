@@ -14,6 +14,12 @@ module.exports = (sequelize: Sequelize, DataTypes: { [key: string]: any }) => {
   class User extends Model {
     static associate(models: any) {
       // define association here
+      this.hasOne(models.UserDetail, {
+        foreignKey: "id"
+      }),
+      this.hasOne(models.Ticket, {
+        foreignKey: "id"
+      })
     }
   }
 
