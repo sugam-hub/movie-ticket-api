@@ -24,11 +24,6 @@ app.use(helmet());
 
 app.use("/api", require("./routes/Routes"));
 
-app.get("/api/get", async (req, res)=> {
-    console.log("requestsss",req,res)
-    return "Hello";
-})
-
 try {   
     const server = app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}!!!`);
